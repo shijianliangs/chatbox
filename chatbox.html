@@ -36,8 +36,22 @@
   .toggle-btn { background: none; border: none; color: #888; font-size: 20px; cursor: pointer; padding: 4px 6px; border-radius: 6px; line-height: 1; }
   .toggle-btn:hover { background: #2a2a2a; color: #ccc; }
   .header h1 { font-size: 15px; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
-  .model-select { background: #2a2a2a; color: #e0e0e0; border: 1px solid #3a3a3a; border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none; cursor: pointer; }
-  .model-select:focus { border-color: #646cff; }
+  .model-dropdown { position: relative; }
+  .model-dropdown-btn { background: #2a2a2a; color: #e0e0e0; border: 1px solid #3a3a3a; border-radius: 6px; padding: 6px 24px 6px 10px; font-size: 13px; cursor: pointer; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; position: relative; }
+  .model-dropdown-btn::after { content: '▾'; position: absolute; right: 7px; top: 50%; transform: translateY(-50%); color: #888; font-size: 10px; pointer-events: none; }
+  .model-dropdown-btn:hover { border-color: #555; }
+  .model-dropdown-btn:disabled { color: #555; cursor: default; }
+  .model-dropdown-panel { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1e1e1e; border: 1px solid #333; border-radius: 8px; width: 220px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.5); overflow: hidden; flex-direction: column; }
+  .model-dropdown.open .model-dropdown-panel { display: flex; }
+  .model-search-inp { background: #252525; color: #e0e0e0; border: none; border-bottom: 1px solid #2a2a2a; padding: 8px 10px; font-size: 13px; outline: none; width: 100%; flex-shrink: 0; }
+  .model-search-inp::placeholder { color: #555; }
+  .model-items-list { overflow-y: auto; max-height: 220px; }
+  .model-items-list::-webkit-scrollbar { width: 4px; }
+  .model-items-list::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+  .model-item { padding: 7px 12px; font-size: 13px; color: #bbb; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .model-item:hover { background: #2a2a2a; color: #fff; }
+  .model-item.selected { color: #60a5fa; }
+  .model-hint { padding: 10px 12px; font-size: 12px; color: #555; text-align: center; }
   .header-info { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
   .header-meta { font-size: 11px; color: #555; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .settings-btn { background: none; border: none; color: #666; font-size: 16px; cursor: pointer; padding: 4px 6px; border-radius: 6px; line-height: 1; }
@@ -93,15 +107,49 @@
   .copy-btn { align-self:flex-end; background:transparent; border:none; color:#555; font-size:12px; cursor:pointer; padding:2px 6px; margin-top:2px; border-radius:4px; transition:color 0.2s, background 0.2s; }
   .copy-btn:hover { color:#aaa; background:#2a2a2a; }
   .copy-btn.copied { color:#4ade80; }
+  .msg-text { white-space: pre-wrap; word-break: break-word; }
+  .attachment-list { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+  .attachment-card { display:flex; align-items:center; gap:10px; min-width:0; padding:10px 12px; border-radius:14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
+  .msg.user .attachment-card { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.18); }
+  .attachment-thumb { width:52px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; background:#111; border:1px solid rgba(255,255,255,0.08); }
+  .attachment-icon { width:52px; height:52px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:20px; background:#171717; border:1px solid rgba(255,255,255,0.08); }
+  .msg.user .attachment-icon { background:rgba(0,0,0,0.15); }
+  .attachment-meta { min-width:0; display:flex; flex-direction:column; gap:3px; }
+  .attachment-name { font-size:12px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .attachment-desc { font-size:11px; color:#8f8f8f; }
+  .msg.user .attachment-desc { color:rgba(255,255,255,0.76); }
+  .attachment-preview { margin-top:6px; padding:8px 10px; border-radius:10px; background:rgba(0,0,0,0.2); font-size:11px; color:inherit; white-space:pre-wrap; word-break:break-word; max-height:120px; overflow:auto; }
 
   /* Input */
-  .input-area { padding: 24px 20px; background: #1a1a1a; border-top: 1px solid #2a2a2a; flex-shrink: 0; }
-  .input-inner { display: flex; gap: 10px; max-width: 1280px; margin: 0 auto; }
-  .input-area textarea { flex:1; background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; border-radius:10px; padding:10px 14px; font-size:14px; font-family:inherit; resize:none; outline:none; min-height:56px; max-height:120px; line-height:1.5; }
-  .input-area textarea:focus { border-color:#646cff; }
-  .input-area button { background:#2563eb; color:#fff; border:none; border-radius:10px; padding:0 20px; font-size:14px; font-weight:500; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
-  .input-area button:hover { background:#1d4ed8; }
-  .input-area button:disabled { background:#333; color:#666; cursor:not-allowed; }
+  .input-area { padding: 18px 20px 22px; background: linear-gradient(180deg, #181818, #151515); border-top: 1px solid #252525; flex-shrink: 0; position: relative; }
+  .input-area::before { content:''; position:absolute; left:20px; right:20px; top:0; height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.09), transparent); }
+  .input-inner { display:flex; max-width:1280px; margin:0 auto; align-items:center; }
+  .input-stack { flex:1; display:flex; flex-direction:column; gap:12px; min-width:0; padding:14px 16px 12px; border-radius:22px; border:1px solid #303030; background:
+    radial-gradient(circle at top left, rgba(96,165,250,0.12), transparent 32%),
+    linear-gradient(180deg, #232323, #1a1a1a 58%, #171717);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .input-tools { display:flex; align-items:center; gap:12px; }
+  .attach-btn { width:38px; height:38px; border-radius:12px; border:1px solid #3d3d3d; background:rgba(255,255,255,0.04); color:#b5b5b5; font-size:20px; line-height:1; padding:0; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:border-color 0.2s, transform 0.2s, color 0.2s, background 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+  .attach-btn:hover { border-color:#5c5c5c; color:#fff; background:rgba(255,255,255,0.07); transform:translateY(-1px); }
+  .attach-btn:active { transform:translateY(0); }
+  .input-area textarea { flex:1; background:transparent; color:#ededed; border:none; border-radius:16px; padding:8px 4px 7px; font-size:15px; font-family:inherit; resize:none; outline:none; min-height:34px; max-height:120px; line-height:1.6; }
+  .input-area textarea::placeholder { color:#757575; }
+  .input-area button { background:#2563eb; color:#fff; border:none; border-radius:999px; padding:0 18px; font-size:14px; font-weight:600; cursor:pointer; transition:background 0.2s, transform 0.2s, box-shadow 0.2s; flex-shrink:0; }
+  .input-area button:hover { background:#1d4ed8; transform:translateY(-1px); box-shadow:0 10px 22px rgba(37,99,235,0.28); }
+  .input-area button:disabled { background:#333; color:#666; cursor:not-allowed; box-shadow:none; transform:none; }
+  #sendBtn { height:38px; }
+  .attachment-tray { display:none; flex-wrap:wrap; gap:8px; }
+  .attachment-tray.has-items { display:flex; }
+  .pending-attachment { display:flex; align-items:center; gap:9px; max-width:280px; padding:8px 10px; border-radius:14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
+  .pending-attachment-thumb { width:38px; height:38px; border-radius:10px; object-fit:cover; flex-shrink:0; background:#111; }
+  .pending-attachment-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#171717; font-size:15px; flex-shrink:0; }
+  .pending-attachment-meta { min-width:0; display:flex; flex-direction:column; gap:2px; }
+  .pending-attachment-name { font-size:12px; color:#ddd; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pending-attachment-desc { font-size:11px; color:#7d7d7d; }
+  .pending-attachment-remove { width:22px; height:22px; border-radius:50%; border:none; background:#2a2a2a; color:#888; cursor:pointer; padding:0; flex-shrink:0; }
+  .pending-attachment-remove:hover { background:#3a2020; color:#fca5a5; }
+  .input-hint { font-size:11px; color:#727272; padding-left:2px; letter-spacing:0.01em; }
 
   /* Markdown */
   .msg.assistant { white-space: normal; }
@@ -132,6 +180,9 @@
   @media (max-width: 700px) {
     .sidebar { position: fixed; left: 0; top: 0; bottom: 0; box-shadow: 2px 0 12px rgba(0,0,0,0.5); }
     .sidebar.collapsed { margin-left: -260px; }
+    .input-area { padding:14px 12px 16px; }
+    .input-area::before { left:12px; right:12px; }
+    .input-stack { padding:12px 12px 10px; border-radius:18px; }
   }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -158,7 +209,13 @@
     <button class="toggle-btn" onclick="toggleSidebar()" title="切换侧栏">☰</button>
     <h1 id="headerTitle">ChatBox</h1>
     <div class="header-info">
-      <select class="model-select" id="modelSelect"></select>
+      <div class="model-dropdown" id="modelDropdown">
+        <button class="model-dropdown-btn" id="modelTrigger" type="button">选择模型</button>
+        <div class="model-dropdown-panel" onclick="event.stopPropagation()">
+          <input class="model-search-inp" id="modelSearch" placeholder="搜索模型..." autocomplete="off">
+          <div class="model-items-list" id="modelList"></div>
+        </div>
+      </div>
       <span class="header-meta" id="headerMeta"></span>
       <button class="settings-btn" onclick="openSettings()" title="设置">⚙</button>
     </div>
@@ -168,8 +225,16 @@
   </div>
   <div class="input-area">
     <div class="input-inner">
-      <textarea id="input" placeholder="输入消息... (Enter 发送, Shift+Enter 换行)" rows="1"></textarea>
-      <button id="sendBtn" onclick="send()">发送</button>
+      <input type="file" id="fileInput" multiple style="display:none">
+      <div class="input-stack">
+        <div class="attachment-tray" id="attachmentTray"></div>
+        <div class="input-tools">
+          <button class="attach-btn" type="button" id="attachBtn" title="上传图片或文件">+</button>
+          <textarea id="input" placeholder="输入消息... (Enter 发送, Shift+Enter 换行)" rows="1"></textarea>
+          <button id="sendBtn" onclick="send()">发送</button>
+        </div>
+        <div class="input-hint" id="inputHint">支持图片和文本文件；其他文件会附带元信息发送。</div>
+      </div>
     </div>
   </div>
 </div>
@@ -181,8 +246,6 @@
     <input type="text" id="cfgEndpoint" placeholder="https://api.example.com/v1/chat/completions">
     <label>API Key</label>
     <input type="password" id="cfgKey" placeholder="sk-...">
-    <label>Models（每行一个，格式 value:label 或 value）</label>
-    <textarea id="cfgModels" placeholder="gpt-4o:GPT-4o&#10;claude-3-opus"></textarea>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeSettings()">取消</button>
       <button class="btn-save" onclick="saveSettings()">保存</button>
@@ -206,6 +269,104 @@
 <script>
 const STORAGE_KEY = 'chat_logs';
 const CONFIG_KEY = 'chatbox_config';
+const LAST_MODEL_KEY = 'chatbox_last_model';
+const SYSTEM_PROMPT = '使用中文回答，除非特殊说明的';
+const MAX_ATTACHMENTS = 6;
+const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MAX_TEXT_BYTES = 300 * 1024;
+const TEXT_ATTACHMENT_PREVIEW = 800;
+const TEXT_FILE_TYPES = ['text/', 'application/json', 'application/xml', 'application/javascript'];
+const TEXT_FILE_EXTS = ['txt', 'md', 'markdown', 'json', 'jsonl', 'csv', 'tsv', 'js', 'ts', 'jsx', 'tsx', 'html', 'css', 'xml', 'yml', 'yaml', 'py', 'rb', 'go', 'rs', 'java', 'c', 'cc', 'cpp', 'h', 'hpp', 'sh', 'sql'];
+let storageWarned = false;
+
+const DB_NAME = 'chatbox_db';
+const DB_VERSION = 1;
+const STORE_CHATS = 'chats';
+
+let dbPromise = null;
+function openDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) { reject(new Error('浏览器不支持 IndexedDB')); return; }
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(STORE_CHATS)) {
+        db.createObjectStore(STORE_CHATS, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return dbPromise;
+}
+
+function idbGetAllChats() {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const req = db.transaction(STORE_CHATS, 'readonly').objectStore(STORE_CHATS).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  }));
+}
+
+function idbPutChat(chat) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_CHATS, 'readwrite');
+    tx.objectStore(STORE_CHATS).put(chat);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  }));
+}
+
+function idbDeleteChat(id) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_CHATS, 'readwrite');
+    tx.objectStore(STORE_CHATS).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  }));
+}
+
+function idbBulkPut(chats) {
+  return openDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_CHATS, 'readwrite');
+    const store = tx.objectStore(STORE_CHATS);
+    chats.forEach(c => store.put(c));
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error);
+  }));
+}
+
+function persistChat(chat) {
+  idbPutChat(chat).catch(e => {
+    console.warn('保存聊天失败:', e);
+    if (!storageWarned) {
+      storageWarned = true;
+      alert('保存聊天记录失败：' + (e.message || e));
+    }
+  });
+}
+
+function removeChatFromDB(id) {
+  idbDeleteChat(id).catch(e => console.warn('删除聊天失败:', e));
+}
+
+async function migrateLocalStorageChats() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const list = JSON.parse(raw);
+    if (Array.isArray(list) && list.length > 0) {
+      await idbBulkPut(list);
+    }
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (e) {
+    console.warn('迁移 localStorage 失败:', e);
+  }
+}
 
 function getConfig() {
   try { return JSON.parse(localStorage.getItem(CONFIG_KEY)); }
@@ -221,36 +382,271 @@ function maskKey(key) {
   return key.slice(0, 4) + '****' + key.slice(-4);
 }
 
-function refreshConfigUI() {
+function getModelsUrl(endpoint) {
+  try {
+    const url = new URL(endpoint);
+    const idx = url.pathname.indexOf('/v1');
+    url.pathname = (idx !== -1 ? url.pathname.slice(0, idx) : '') + '/v1/models';
+    url.search = '';
+    return url.toString();
+  } catch { return null; }
+}
+
+async function fetchModels(endpoint, key) {
+  const url = getModelsUrl(endpoint);
+  if (!url) return [];
+  try {
+    const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + key } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.data || []).map(m => ({ value: m.id, label: m.id })).sort((a, b) => a.value.localeCompare(b.value));
+  } catch { return []; }
+}
+
+function loadStoredArray(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || '[]');
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function getSSEDataValue(line) {
+  const trimmed = line.trim();
+  if (!trimmed.startsWith('data:')) return null;
+  return trimmed.slice(5).trimStart();
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes) || bytes < 1024) return (bytes || 0) + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1).replace(/\.0$/, '') + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1).replace(/\.0$/, '') + ' MB';
+}
+
+function fileExt(name) {
+  const parts = (name || '').toLowerCase().split('.');
+  return parts.length > 1 ? parts.pop() : '';
+}
+
+function isImageFile(file) {
+  return !!file?.type && file.type.startsWith('image/');
+}
+
+function isTextFile(file) {
+  if (!file) return false;
+  if (TEXT_FILE_TYPES.some(type => file.type.startsWith(type))) return true;
+  return TEXT_FILE_EXTS.includes(fileExt(file.name));
+}
+
+function attachmentIcon(kind, type) {
+  if (kind === 'image') return '🖼';
+  if (kind === 'text') return '📝';
+  if ((type || '').includes('pdf')) return '📄';
+  if ((type || '').includes('zip')) return '🗜';
+  return '📎';
+}
+
+function attachmentDescription(att) {
+  const desc = [formatBytes(att.size || 0)];
+  if (att.kind === 'image') desc.push('图片');
+  else if (att.kind === 'text') desc.push('文本已附带');
+  else desc.push(att.type || '二进制文件');
+  return desc.join(' · ');
+}
+
+function textPreview(text) {
+  const normalized = (text || '').trim();
+  if (!normalized) return '';
+  return normalized.length > TEXT_ATTACHMENT_PREVIEW ? normalized.slice(0, TEXT_ATTACHMENT_PREVIEW) + '\n...' : normalized;
+}
+
+function normalizeAttachments(list) {
+  return Array.isArray(list) ? list : [];
+}
+
+function messageText(message) {
+  return typeof message?.content === 'string' ? message.content : '';
+}
+
+function messageAttachments(message) {
+  return normalizeAttachments(message?.attachments);
+}
+
+function buildCopyText(message) {
+  const lines = [];
+  const text = messageText(message);
+  if (text) lines.push(text);
+  messageAttachments(message).forEach(att => {
+    lines.push(`[附件] ${att.name} (${attachmentDescription(att)})`);
+    if (att.kind === 'text' && att.textContent) lines.push(att.textContent);
+  });
+  return lines.filter(Boolean).join('\n\n');
+}
+
+function renderAttachments(container, attachments) {
+  if (!attachments.length) return;
+  const list = document.createElement('div');
+  list.className = 'attachment-list';
+  attachments.forEach(att => {
+    const card = document.createElement('div');
+    card.className = 'attachment-card';
+    if (att.kind === 'image' && att.dataUrl) {
+      const img = document.createElement('img');
+      img.className = 'attachment-thumb';
+      img.src = att.dataUrl;
+      img.alt = att.name;
+      card.appendChild(img);
+    } else {
+      const icon = document.createElement('div');
+      icon.className = 'attachment-icon';
+      icon.textContent = attachmentIcon(att.kind, att.type);
+      card.appendChild(icon);
+    }
+
+    const meta = document.createElement('div');
+    meta.className = 'attachment-meta';
+    const name = document.createElement('div');
+    name.className = 'attachment-name';
+    name.textContent = att.name;
+    const desc = document.createElement('div');
+    desc.className = 'attachment-desc';
+    desc.textContent = attachmentDescription(att);
+    meta.append(name, desc);
+
+    if (att.kind === 'text' && att.textPreview) {
+      const preview = document.createElement('div');
+      preview.className = 'attachment-preview';
+      preview.textContent = att.textPreview;
+      meta.appendChild(preview);
+    }
+
+    card.appendChild(meta);
+    list.appendChild(card);
+  });
+  container.appendChild(list);
+}
+
+function serializeAttachment(file, extra) {
+  return {
+    id: 'att_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    name: file.name,
+    size: file.size,
+    type: file.type || 'application/octet-stream',
+    ...extra
+  };
+}
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error || new Error('读取文件失败'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function readFileAsText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error || new Error('读取文件失败'));
+    reader.readAsText(file);
+  });
+}
+
+let selectedModelValue = localStorage.getItem(LAST_MODEL_KEY) || '';
+
+function setModelTrigger(text, disabled) {
+  const btn = document.getElementById('modelTrigger');
+  btn.textContent = text;
+  btn.disabled = !!disabled;
+}
+
+function populateModelSelect(models, savedValue) {
+  const list = document.getElementById('modelList');
+  list.innerHTML = '';
+  if (models.length === 0) {
+    list.innerHTML = '<div class="model-hint">无可用模型</div>';
+    return;
+  }
+  const target = savedValue || selectedModelValue;
+  const match = models.find(m => m.value === target);
+  selectedModelValue = match ? match.value : models[0].value;
+  localStorage.setItem(LAST_MODEL_KEY, selectedModelValue);
+  setModelTrigger(selectedModelValue, false);
+  models.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'model-item' + (m.value === selectedModelValue ? ' selected' : '');
+    el.textContent = m.label;
+    el.dataset.value = m.value;
+    el.onclick = () => {
+      selectedModelValue = m.value;
+      localStorage.setItem(LAST_MODEL_KEY, m.value);
+      setModelTrigger(m.label, false);
+      document.getElementById('modelDropdown').classList.remove('open');
+      list.querySelectorAll('.model-item').forEach(i => i.classList.toggle('selected', i.dataset.value === m.value));
+    };
+    list.appendChild(el);
+  });
+}
+
+function filterModels(q) {
+  const lq = q.toLowerCase();
+  const list = document.getElementById('modelList');
+  let visible = 0;
+  list.querySelectorAll('.model-item').forEach(el => {
+    const show = el.dataset.value.toLowerCase().includes(lq);
+    el.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  let hint = list.querySelector('.model-hint');
+  if (visible === 0 && q) {
+    if (!hint) { hint = document.createElement('div'); hint.className = 'model-hint'; list.appendChild(hint); }
+    hint.textContent = '无匹配';
+    hint.style.display = '';
+  } else if (hint) {
+    hint.style.display = 'none';
+  }
+}
+
+async function refreshConfigUI() {
   const cfg = getConfig();
-  const sel = document.getElementById('modelSelect');
   const meta = document.getElementById('headerMeta');
-  sel.innerHTML = '';
   if (!cfg) {
+    setModelTrigger('选择模型', true);
     meta.textContent = '未配置';
     meta.style.color = '#f87171';
     return;
   }
   meta.style.color = '';
-  const saved = localStorage.getItem('chatbox_last_model');
-  cfg.models.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.value;
-    opt.textContent = m.label;
-    sel.appendChild(opt);
-  });
-  if (saved && [...sel.options].some(o => o.value === saved)) sel.value = saved;
-  sel.onchange = () => localStorage.setItem('chatbox_last_model', sel.value);
   let host = cfg.endpoint;
   try { host = new URL(cfg.endpoint).host; } catch {}
   meta.textContent = host + ' · ' + maskKey(cfg.key);
+
+  const saved = localStorage.getItem(LAST_MODEL_KEY) || '';
+  const cacheKey = 'chatbox_models_' + cfg.endpoint;
+  const cached = loadStoredArray(cacheKey);
+
+  if (cached.length > 0) {
+    populateModelSelect(cached, saved);
+  } else {
+    setModelTrigger('加载中...', true);
+  }
+
+  const models = await fetchModels(cfg.endpoint, cfg.key);
+  if (models.length > 0) {
+    try { localStorage.setItem(cacheKey, JSON.stringify(models)); } catch {}
+    populateModelSelect(models, selectedModelValue || saved);
+  } else if (cached.length === 0) {
+    setModelTrigger('获取失败', false);
+  }
 }
 
 function openSettings() {
   const cfg = getConfig() || {};
   document.getElementById('cfgEndpoint').value = cfg.endpoint || '';
   document.getElementById('cfgKey').value = cfg.key || '';
-  document.getElementById('cfgModels').value = (cfg.models || []).map(m => m.value === m.label ? m.value : m.value + ':' + m.label).join('\n');
   document.getElementById('settingsModal').classList.add('open');
 }
 
@@ -261,17 +657,12 @@ function closeSettings() {
 function saveSettings() {
   const endpoint = document.getElementById('cfgEndpoint').value.trim();
   const key = document.getElementById('cfgKey').value.trim();
-  const models = document.getElementById('cfgModels').value.trim().split('\n').filter(Boolean).map(line => {
-    const idx = line.indexOf(':');
-    const v = idx === -1 ? line : line.slice(0, idx);
-    const l = idx === -1 ? null : line.slice(idx + 1);
-    return { value: v.trim(), label: (l || v).trim() };
-  });
-  if (!endpoint || !key || models.length === 0) return;
+  if (!endpoint || !key) return;
   if (!endpoint.startsWith('https://') && !endpoint.startsWith('http://localhost') && !endpoint.startsWith('http://127.0.0.1')) {
     if (!confirm('Endpoint 未使用 HTTPS，API Key 可能被明文传输，是否继续？')) return;
   }
-  localStorage.setItem(CONFIG_KEY, JSON.stringify({ endpoint, key, models }));
+  try { localStorage.removeItem('chatbox_models_' + endpoint); } catch {}
+  localStorage.setItem(CONFIG_KEY, JSON.stringify({ endpoint, key }));
   refreshConfigUI();
   closeSettings();
 }
@@ -307,30 +698,43 @@ function highlightCode(el) {
   addCodeCopyButtons(el);
 }
 
-let chatList = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let chatList = [];
 let currentChatId = null;
 let messages = [];
 let controller = null;
+let pendingAttachments = [];
 
 const inputEl = document.getElementById('input');
 const messagesEl = document.getElementById('messages');
 const sendBtn = document.getElementById('sendBtn');
 const sidebarList = document.getElementById('sidebarList');
+const fileInputEl = document.getElementById('fileInput');
+const attachmentTrayEl = document.getElementById('attachmentTray');
+const attachBtnEl = document.getElementById('attachBtn');
 
 inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); send(); }
 });
+let resizePending = false;
 inputEl.addEventListener('input', () => {
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+  if (!resizePending) {
+    resizePending = true;
+    requestAnimationFrame(() => {
+      inputEl.style.height = 'auto';
+      inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+      resizePending = false;
+    });
+  }
+});
+inputEl.addEventListener('paste', e => {
+  handlePaste(e).catch(err => {
+    console.error('Paste image failed:', err);
+    alert('粘贴图片失败');
+  });
 });
 
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('collapsed');
-}
-
-function saveChatList() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(chatList));
 }
 
 function saveCurrentChat() {
@@ -339,7 +743,7 @@ function saveCurrentChat() {
   if (chat) {
     chat.messages = messages;
     chat.updatedAt = Date.now();
-    saveChatList();
+    persistChat(chat);
     renderSidebar();
   }
 }
@@ -354,7 +758,7 @@ function newChat() {
     messages: []
   };
   chatList.unshift(chat);
-  saveChatList();
+  persistChat(chat);
   loadChat(chat.id);
 }
 
@@ -365,6 +769,8 @@ function loadChat(id) {
   const chat = chatList.find(c => c.id === id);
   if (!chat) return;
   messages = chat.messages ? [...chat.messages] : [];
+  pendingAttachments = [];
+  renderPendingAttachments();
   document.getElementById('headerTitle').textContent = chat.title;
   renderMessages();
   renderSidebar();
@@ -374,7 +780,7 @@ function loadChat(id) {
 function deleteChat(id, e) {
   e.stopPropagation();
   chatList = chatList.filter(c => c.id !== id);
-  saveChatList();
+  removeChatFromDB(id);
   if (currentChatId === id) {
     currentChatId = null;
     sessionStorage.removeItem('current_chat_id');
@@ -445,7 +851,7 @@ function renderMessages() {
     return;
   }
   for (const m of messages) {
-    const div = addMsgDOM(m.role, m.content);
+    const div = addMsgDOM(m.role, m.content, messageAttachments(m));
     if (m.thinking) {
       const wrap = div.parentElement;
       const block = document.createElement('details');
@@ -480,12 +886,19 @@ function addMsgDOM(role, content) {
   wrap.className = 'msg-wrap ' + role;
   const div = document.createElement('div');
   div.className = 'msg ' + role;
+  const attachments = arguments[2] || [];
   if (role === 'assistant' && content) {
     div.innerHTML = renderMd(content);
-    div.dataset.raw = content;
   } else {
-    div.textContent = content;
+    if (content) {
+      const text = document.createElement('div');
+      text.className = 'msg-text';
+      text.textContent = content;
+      div.appendChild(text);
+    }
+    renderAttachments(div, attachments);
   }
+  div.dataset.raw = buildCopyText({ role, content, attachments });
   wrap.appendChild(div);
   const copyBtn = document.createElement('button');
   copyBtn.className = 'copy-btn';
@@ -503,22 +916,164 @@ function addMsgDOM(role, content) {
   return div;
 }
 
+function renderPendingAttachments() {
+  attachmentTrayEl.innerHTML = '';
+  attachmentTrayEl.classList.toggle('has-items', pendingAttachments.length > 0);
+  pendingAttachments.forEach(att => {
+    const item = document.createElement('div');
+    item.className = 'pending-attachment';
+    if (att.kind === 'image' && att.dataUrl) {
+      const img = document.createElement('img');
+      img.className = 'pending-attachment-thumb';
+      img.src = att.dataUrl;
+      img.alt = att.name;
+      item.appendChild(img);
+    } else {
+      const icon = document.createElement('div');
+      icon.className = 'pending-attachment-icon';
+      icon.textContent = attachmentIcon(att.kind, att.type);
+      item.appendChild(icon);
+    }
+    const meta = document.createElement('div');
+    meta.className = 'pending-attachment-meta';
+    const name = document.createElement('div');
+    name.className = 'pending-attachment-name';
+    name.textContent = att.name;
+    const desc = document.createElement('div');
+    desc.className = 'pending-attachment-desc';
+    desc.textContent = attachmentDescription(att);
+    meta.append(name, desc);
+    item.appendChild(meta);
+    const remove = document.createElement('button');
+    remove.className = 'pending-attachment-remove';
+    remove.type = 'button';
+    remove.textContent = '×';
+    remove.onclick = () => {
+      pendingAttachments = pendingAttachments.filter(x => x.id !== att.id);
+      renderPendingAttachments();
+    };
+    item.appendChild(remove);
+    attachmentTrayEl.appendChild(item);
+  });
+}
+
+function clearPendingAttachments() {
+  pendingAttachments = [];
+  fileInputEl.value = '';
+  renderPendingAttachments();
+}
+
+async function handleFileSelect(input) {
+  const files = Array.from(input.files || []);
+  input.value = '';
+  await addFiles(files);
+}
+
+async function addFiles(files) {
+  if (!files.length) return;
+  if (pendingAttachments.length + files.length > MAX_ATTACHMENTS) {
+    alert(`最多上传 ${MAX_ATTACHMENTS} 个附件`);
+    return;
+  }
+
+  const next = [];
+  for (const file of files) {
+    try {
+      if (isImageFile(file)) {
+        if (file.size > MAX_IMAGE_BYTES) {
+          alert(`图片 ${file.name} 超过 ${formatBytes(MAX_IMAGE_BYTES)} 限制`);
+          continue;
+        }
+        const dataUrl = await readFileAsDataURL(file);
+        next.push(serializeAttachment(file, { kind: 'image', dataUrl }));
+        continue;
+      }
+
+      if (isTextFile(file)) {
+        if (file.size > MAX_TEXT_BYTES) {
+          alert(`文本文件 ${file.name} 超过 ${formatBytes(MAX_TEXT_BYTES)} 限制`);
+          continue;
+        }
+        const textContent = String(await readFileAsText(file));
+        next.push(serializeAttachment(file, {
+          kind: 'text',
+          textContent,
+          textPreview: textPreview(textContent)
+        }));
+        continue;
+      }
+
+      next.push(serializeAttachment(file, { kind: 'binary' }));
+    } catch (e) {
+      alert(`读取 ${file.name} 失败: ${e.message || e}`);
+    }
+  }
+
+  pendingAttachments = pendingAttachments.concat(next);
+  renderPendingAttachments();
+}
+
+async function handlePaste(e) {
+  const items = Array.from(e.clipboardData?.items || []);
+  if (!items.length) return;
+  const imageFiles = items
+    .filter(item => item.kind === 'file' && item.type.startsWith('image/'))
+    .map(item => item.getAsFile())
+    .filter(Boolean);
+  if (!imageFiles.length) return;
+  e.preventDefault();
+  await addFiles(imageFiles);
+}
+
+function composeUserText(text, attachments) {
+  const parts = [];
+  if (text) parts.push(text);
+  attachments.forEach(att => {
+    if (att.kind === 'text' && att.textContent) {
+      parts.push(`附件文件：${att.name}\n\`\`\`\n${att.textContent}\n\`\`\``);
+    } else if (att.kind === 'binary') {
+      parts.push(`附件文件：${att.name}（${attachmentDescription(att)}）。该文件为二进制，未直接内联正文。`);
+    }
+  });
+  if (parts.length === 0 && attachments.some(att => att.kind === 'image')) {
+    parts.push('请结合附件图片回答。');
+  }
+  return parts.join('\n\n');
+}
+
+function buildApiMessage(message) {
+  const text = messageText(message);
+  const attachments = messageAttachments(message);
+  if (message.role !== 'user' || attachments.length === 0) {
+    return { role: message.role, content: text };
+  }
+
+  const composedText = composeUserText(text, attachments);
+  const parts = [];
+  if (composedText) parts.push({ type: 'text', text: composedText });
+  attachments.forEach(att => {
+    if (att.kind === 'image' && att.dataUrl) {
+      parts.push({ type: 'image_url', image_url: { url: att.dataUrl, detail: 'auto' } });
+    }
+  });
+  return { role: message.role, content: parts.length === 1 && parts[0].type === 'text' ? composedText : parts };
+}
+
 function isSSEData(text) {
   const lines = text.trim().split('\n');
-  let dataLines = 0;
   for (const line of lines) {
     const t = line.trim();
-    if (t === '') continue;
-    if (t.startsWith('data: ')) dataLines++;
-    else return false;
+    if (!t || t.startsWith(':')) continue;
+    if (/^(event|id|retry):/.test(t)) continue;
+    const data = getSSEDataValue(t);
+    if (data == null) return false;
+    if (!data || data === '[DONE]') continue;
+    try {
+      const json = JSON.parse(data);
+      if (json.choices || json.usage) return true;
+    } catch {}
   }
-  if (dataLines < 2) return false;
-  const first = lines.find(l => l.trim().startsWith('data: ') && l.trim().slice(6) !== '[DONE]');
-  if (!first) return false;
-  try {
-    const json = JSON.parse(first.trim().slice(6));
-    return !!(json.choices || json.usage);
-  } catch { return false; }
+  return false;
 }
 
 function parseSSEData(text) {
@@ -527,10 +1082,8 @@ function parseSSEData(text) {
   let usage = null;
   let id = '';
   for (const line of lines) {
-    const t = line.trim();
-    if (!t || !t.startsWith('data: ')) continue;
-    const data = t.slice(6);
-    if (data === '[DONE]') continue;
+    const data = getSSEDataValue(line);
+    if (data == null || !data || data === '[DONE]') continue;
     try {
       const json = JSON.parse(data);
       if (json.model) model = json.model;
@@ -541,7 +1094,10 @@ function parseSSEData(text) {
       if (delta?.reasoning_content) thinking += delta.reasoning_content;
     } catch {}
   }
-  const chunks = lines.filter(l => l.trim().startsWith('data: ') && l.trim().slice(6) !== '[DONE]' && l.trim().slice(6) !== '').length;
+  const chunks = lines.filter(line => {
+    const data = getSSEDataValue(line);
+    return data != null && data !== '' && data !== '[DONE]';
+  }).length;
   return { content, thinking, model, usage, id, chunks };
 }
 
@@ -602,7 +1158,7 @@ function renderSSEResult(text, fileName) {
   if (chat) {
     chat.title = label.replace(/\.[^.]+$/, '').slice(0, 20) + ' - ' + (model || '未知');
     document.getElementById('headerTitle').textContent = chat.title;
-    saveChatList();
+    persistChat(chat);
     renderSidebar();
   }
 
@@ -654,7 +1210,20 @@ function renderSSEResult(text, fileName) {
 
 async function send() {
   const text = inputEl.value.trim();
-  if (!text || controller) return;
+  const attachments = pendingAttachments.map(att => ({ ...att }));
+  if ((!text && attachments.length === 0) || controller) return;
+
+  const cfg = getConfig();
+  if (!cfg) {
+    openSettings();
+    return;
+  }
+
+  const model = selectedModelValue;
+  if (!model) {
+    alert('没有可用模型，请检查设置或重新加载模型列表');
+    return;
+  }
 
   if (!currentChatId) newChat();
 
@@ -663,23 +1232,21 @@ async function send() {
 
   inputEl.value = '';
   inputEl.style.height = 'auto';
-  addMsgDOM('user', text);
-  messages.push({ role: 'user', content: text });
+  clearPendingAttachments();
+  addMsgDOM('user', text, attachments);
+  messages.push({ role: 'user', content: text, attachments });
 
   // update title from first user message
   const chat = chatList.find(c => c.id === currentChatId);
   if (chat && chat.title === '新对话') {
     chat.title = text.slice(0, 30) + (text.length > 30 ? '...' : '');
     document.getElementById('headerTitle').textContent = chat.title;
-    saveChatList();
+    persistChat(chat);
     renderSidebar();
   }
 
   saveCurrentChat();
 
-  const model = document.getElementById('modelSelect').value;
-  const cfg = getConfig();
-  if (!cfg) { openSettings(); return; }
   const assistantDiv = addMsgDOM('assistant', '');
   const wrap = assistantDiv.parentElement;
   const cursor = document.createElement('span');
@@ -701,12 +1268,70 @@ async function send() {
   let totalTokens = { prompt: 0, completion: 0, total: 0 };
   let usedModel = model;
   const startTime = Date.now();
+  let sawDone = false;
+
+  function handleStreamLine(line) {
+    const data = getSSEDataValue(line);
+    if (data == null || !data) return;
+    if (data === '[DONE]') {
+      sawDone = true;
+      return;
+    }
+
+    try {
+      const json = JSON.parse(data);
+      const delta = json.choices?.[0]?.delta;
+      const reasoning = delta?.reasoning_content;
+      const content = delta?.content;
+
+      if (json.model) usedModel = json.model;
+      if (json.usage) {
+        totalTokens.prompt = json.usage.prompt_tokens || 0;
+        totalTokens.completion = json.usage.completion_tokens || 0;
+        totalTokens.total = json.usage.total_tokens || 0;
+      }
+
+      if (reasoning) {
+        if (!thinkingBlock) {
+          thinkingBlock = document.createElement('details');
+          thinkingBlock.className = 'thinking-block';
+          thinkingBlock.open = true;
+          const summary = document.createElement('summary');
+          thinkingIcon = document.createElement('span');
+          thinkingIcon.className = 'thinking-label-icon spinning';
+          summary.appendChild(thinkingIcon);
+          summary.append(' 思考中...');
+          thinkingBlock.appendChild(summary);
+          thinkingContent = document.createElement('div');
+          thinkingContent.className = 'thinking-content';
+          thinkingBlock.appendChild(thinkingContent);
+          wrap.insertBefore(thinkingBlock, assistantDiv);
+        }
+        thinkingText += reasoning;
+        thinkingContent.textContent = thinkingText;
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      if (content) {
+        if (thinkingBlock && thinkingIcon) {
+          thinkingIcon.classList.remove('spinning');
+          thinkingBlock.querySelector('summary').lastChild.textContent = ' 思考完成';
+          thinkingBlock.open = false;
+        }
+        fullText += content;
+        assistantDiv.innerHTML = renderMd(fullText);
+        assistantDiv.dataset.raw = fullText;
+        assistantDiv.appendChild(cursor);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+    } catch {}
+  }
 
   try {
     const res = await fetch(cfg.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.key },
-      body: JSON.stringify({ model, messages: messages.map(m => ({ role: m.role, content: m.content })), stream: true, stream_options: { include_usage: true } }),
+      body: JSON.stringify({ model, messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages.map(buildApiMessage)], stream: true, stream_options: { include_usage: true },  enable_thinking: true}),
       signal: controller.signal
     });
 
@@ -727,60 +1352,14 @@ async function send() {
       buffer = lines.pop();
 
       for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || !trimmed.startsWith('data: ')) continue;
-        const data = trimmed.slice(6);
-        if (data === '[DONE]') break;
-
-        try {
-          const json = JSON.parse(data);
-          const delta = json.choices?.[0]?.delta;
-          const reasoning = delta?.reasoning_content;
-          const content = delta?.content;
-
-          if (json.model) usedModel = json.model;
-          if (json.usage) {
-            totalTokens.prompt = json.usage.prompt_tokens || 0;
-            totalTokens.completion = json.usage.completion_tokens || 0;
-            totalTokens.total = json.usage.total_tokens || 0;
-          }
-
-          if (reasoning) {
-            if (!thinkingBlock) {
-              thinkingBlock = document.createElement('details');
-              thinkingBlock.className = 'thinking-block';
-              thinkingBlock.open = true;
-              const summary = document.createElement('summary');
-              thinkingIcon = document.createElement('span');
-              thinkingIcon.className = 'thinking-label-icon spinning';
-              summary.appendChild(thinkingIcon);
-              summary.append(' 思考中...');
-              thinkingBlock.appendChild(summary);
-              thinkingContent = document.createElement('div');
-              thinkingContent.className = 'thinking-content';
-              thinkingBlock.appendChild(thinkingContent);
-              wrap.insertBefore(thinkingBlock, assistantDiv);
-            }
-            thinkingText += reasoning;
-            thinkingContent.textContent = thinkingText;
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-          }
-
-          if (content) {
-            if (thinkingBlock && thinkingIcon) {
-              thinkingIcon.classList.remove('spinning');
-              thinkingBlock.querySelector('summary').lastChild.textContent = ' 思考完成';
-              thinkingBlock.open = false;
-            }
-            fullText += content;
-            assistantDiv.innerHTML = renderMd(fullText);
-            assistantDiv.dataset.raw = fullText;
-            assistantDiv.appendChild(cursor);
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-          }
-        } catch {}
+        handleStreamLine(line);
+        if (sawDone) break;
       }
-      if (done) break;
+      if (done) {
+        if (buffer.trim()) handleStreamLine(buffer);
+        break;
+      }
+      if (sawDone) break;
     }
   } catch (e) {
     if (e.name !== 'AbortError') {
@@ -791,13 +1370,10 @@ async function send() {
   }
 
   cursor.remove();
-  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-
-  const statsDiv = document.createElement('div');
-  statsDiv.className = 'msg-stats';
-  statsDiv.innerHTML = `<span>${elapsed}s</span><span>input ${fmt(totalTokens.prompt)}</span><span>output ${fmt(totalTokens.completion)}</span><span>total ${fmt(totalTokens.total)} tokens</span><span>${escHtml(usedModel)}</span>`;
-  const copyBtn = wrap.querySelector('.copy-btn');
-  wrap.insertBefore(statsDiv, copyBtn);
+  if (!fullText && thinkingText) {
+    assistantDiv.textContent = '（仅收到思考内容，无最终回复）';
+    assistantDiv.dataset.raw = thinkingText;
+  }
 
   if (thinkingBlock && thinkingIcon) {
     thinkingIcon.classList.remove('spinning');
@@ -805,13 +1381,22 @@ async function send() {
     if (fullText) thinkingBlock.open = false;
   }
 
-  highlightCode(assistantDiv);
+  if (fullText || thinkingText) {
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    const statsDiv = document.createElement('div');
+    statsDiv.className = 'msg-stats';
+    statsDiv.innerHTML = `<span>${elapsed}s</span><span>input ${fmt(totalTokens.prompt)}</span><span>output ${fmt(totalTokens.completion)}</span><span>total ${fmt(totalTokens.total)} tokens</span><span>${escHtml(usedModel)}</span>`;
+    const copyBtn = wrap.querySelector('.copy-btn');
+    wrap.insertBefore(statsDiv, copyBtn);
 
-  if (fullText) {
-    const msgObj = { role: 'assistant', content: fullText };
+    highlightCode(assistantDiv);
+
+    const msgObj = { role: 'assistant', content: fullText || '（仅收到思考内容，无最终回复）' };
     if (thinkingText) msgObj.thinking = thinkingText;
     msgObj.stats = { elapsed, prompt: totalTokens.prompt, completion: totalTokens.completion, total: totalTokens.total, model: usedModel };
     messages.push(msgObj);
+  } else {
+    wrap.remove();
   }
 
   saveCurrentChat();
@@ -837,14 +1422,41 @@ function exportAll() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
+document.getElementById('modelTrigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const dd = document.getElementById('modelDropdown');
+  const opening = !dd.classList.contains('open');
+  dd.classList.toggle('open');
+  if (opening) {
+    const inp = document.getElementById('modelSearch');
+    inp.value = '';
+    filterModels('');
+    inp.focus();
+  }
+});
+document.getElementById('modelSearch').addEventListener('input', e => filterModels(e.target.value));
+document.addEventListener('click', () => document.getElementById('modelDropdown').classList.remove('open'));
+attachBtnEl.addEventListener('click', () => fileInputEl.click());
+fileInputEl.addEventListener('change', () => handleFileSelect(fileInputEl));
+
 refreshConfigUI();
-renderSidebar();
-const savedChatId = sessionStorage.getItem('current_chat_id');
-if (savedChatId && chatList.find(c => c.id === savedChatId)) {
-  loadChat(savedChatId);
-} else {
-  inputEl.focus();
-}
+(async () => {
+  try {
+    await migrateLocalStorageChats();
+    const all = await idbGetAllChats();
+    chatList = all.sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
+  } catch (e) {
+    console.warn('加载聊天记录失败:', e);
+    alert('加载聊天记录失败：' + (e.message || e));
+  }
+  renderSidebar();
+  const savedChatId = sessionStorage.getItem('current_chat_id');
+  if (savedChatId && chatList.find(c => c.id === savedChatId)) {
+    loadChat(savedChatId);
+  } else {
+    inputEl.focus();
+  }
+})();
 </script>
 </body>
 </html>
